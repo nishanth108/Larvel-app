@@ -10,6 +10,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GusetController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,8 @@ Route::get('/dashboard', function () {
 
 // Admin group middle ware
 Route::middleware(['auth', 'roles:admin'])->group(function () {
+
+
     Route::get('/admin/dashboard', [AdminController::class, 'AdminDashboard'])
         ->name('admin.dashboard');
 
@@ -72,6 +75,9 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
     // AJAX – fetch full message
     Route::get('/enquiries/{contact}/message', [ContactController::class, 'message'])
         ->name('enquiries.message');
+
+    // Marking the Notification
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 }); //End Group andmin modular
 
 
@@ -142,11 +148,21 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
 
         Route::post('/store/amenitie', 'StoreAmenitie')->name('store.amenitie');
 
-        Route::get('/edit/amenitie/{id}', 'EditAmenitie')->name('edit.amenitie');
+        Route::get('/edit/amenitie/{amenities}', 'EditAmenitie')->name('edit.amenitie');
 
-        Route::post('/update/amenitie', 'UpdateAmenitie')->name('update.amenitie');
+        Route::post('/update/amenitie/{amenities}', 'UpdateAmenitie')->name('update.amenitie');
 
         Route::get('/delete/amenitie/{id}', 'DeleteAmenitie')->name('delete.amenitie');
+
+
+        //For Service property
+        Route::get('all/service', 'AllService')->name('all.services');
+
+        Route::get('add/service', 'AddService')->name('add.services');
+
+        Route::get('edit/service/{id}', 'EditService')->name('edit.services');
+
+        Route::get('delete/service/{id}', 'DeleteService')->name('delete.services');
     });
 
 

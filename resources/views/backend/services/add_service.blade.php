@@ -13,32 +13,25 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h6 class="card-title">Edit Amenities</h6>
+                            <h6 class="card-title">Add Service</h6>
 
-                            <form method="POST" action="{{ route('update.amenitie',$amenities) }}" class="forms-sample" id="myForm">
+                            <form method="POST" action="{{ route('store.service') }}" class="forms-sample" id="myForm">
                                 @csrf
 
-                                {{-- <input type="hidden" name="slug" value="{{ $amenities->slug }}"> --}}
-                                {{-- <input type="hidden" name="id" value="{{ $amenities->id }}"> --}}
                                 {{-- Here we have to all of our field --}}
 
                                 <div class="form-group mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Amenities Name</label>
-                                    <input type="text" name="amenities_name" class="form-control"
-                                        value="{{ $amenities->amenities_name }}">
+                                    <label for="exampleInputEmail1" class="form-label">Name</label>
+                                    <input type="text" name="amenities_name" class="form-control">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">description</label>
-                                    <input type="text" name="description" class="form-control"
-                                        value="{{ $amenities->description }}">
+                                    <label for="inputDescription" class="form-label">Description</label>
+                                    <textarea type="text" name="amenities_description" class="form-control" id="amenitiesDescription"> </textarea>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">icon_name</label>
-                                    <input type="text" name="icon_name" class="form-control"
-                                        value="{{ $amenities->icon_name }}">
+                                    <label for="amenitiesIconName" class="form-label">Icon Name</label>
+                                    <input type="text" name="amenities_icon" class="form-control" id="amenitiesIconName">
                                 </div>
-
-
 
                                 <button type="submit" class="btn btn-primary me-2">Save Changes</button>
                             </form>

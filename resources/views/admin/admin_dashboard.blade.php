@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="Responsive HTML Admin Dashboard Template based on Bootstrap 5">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta name="author" content="NobleUI">
     <meta name="keywords"
         content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
@@ -75,38 +77,67 @@
 
         </div>
     </div>
+    <script>
+        window.userId = {{ auth()->id() }};
+    </script>
 
-    <!-- core:js -->
+    @vite(['resources/js/app.js'])
+
     <script src="{{ asset('backend/assets/vendors/core/core.js') }}"></script>
-    <!-- endinject -->
-
-
-    <!-- Plugin js for this page -->
-    <script src="{{ asset('backend/assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
-    <!-- End plugin js for this page -->
-
-    <!-- inject:js -->
-    <script src="{{ asset('backend/assets/vendors/feather-icons/feather.min.js') }}"></script>
-    <script src="{{ asset('backend/assets/js/template.js') }}"></script>
-    <!-- endinject -->
-
-    <!-- Custom js for this page -->
-    <script src="{{ asset('backend/assets/js/dashboard-dark.js') }}"></script>
-    <!-- End custom js for this page -->
-
-    {{-- J quert Link --}}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    {{-- Notification mess --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+
+            // Give Vite a moment to load app.js
+
+            window.authUserId = "{{ auth()->id() }}";
+            console.log(window.authUserId);
+
+
+            setTimeout(() => {
+                if (!window.Echo) {
+                    console.error('❌ Echo is not initialized. Check your app.js');
+                    return;
+                }
+
+                if (!window.authUserId) {
+                    console.error('❌ authUserId is not defined');
+                    return;
+                }
+
+                console.log(`✅ Listening for notifications on User: ${window.authUserId}`);
+
+                window.Echo
+                    .private(`App.Models.User.${window.authUserId}`)
+                    .listen('.contact.notification', (e) => {
+                        console.log('✅ Contact event received:', e.message);
+
+                        const badge = document.getElementById('notification-count');
+                        if (badge) {
+                            let count = parseInt(badge.innerText) || 0;
+                            badge.innerText = count + 1;
+                            badge.classList.remove('d-none');
+                        }
+                    });
+
+            }, 500);
+
+        });
+    </script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="{{ asset('backend/assets/js/code.js') }}"></script>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-    <script src="{{ asset('backend/assets/js/code/code.js') }}"></script>
-
-
-    {{-- Validation message --}}
-    <script src="{{ asset('backend/assets/js/code/validate.min.js') }}"></script>
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script>
         @if (Session::has('message'))
             var type = "{{ Session::get('alert-type', 'info') }}"
@@ -130,11 +161,20 @@
         @endif
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+    <script src="{{ asset('backend/assets/vendors/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendors/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/vendors/feather-icons/feather.min.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/template.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/dashboard-dark.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/code/code.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/code/validate.min.js') }}"></script>
 
     @stack('script')
     @stack('edit.amenities.script')
     @stack('datatables')
+
 
 </body>
 

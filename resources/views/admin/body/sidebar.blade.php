@@ -46,33 +46,32 @@
                 </li>
             @endif
 
-            @if (Auth::user()->can('amenities.menu'))
-                <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="collapse" href="#amenities" role="button" aria-expanded="false"
-                        aria-controls="emails">
-                        <i class="link-icon" data-feather="mail"></i>
-                        <span class="link-title">Amenities Type</span>
-                        <i class="link-arrow" data-feather="chevron-down"></i>
-                    </a>
-                    <div class="collapse" id="amenities">
-                        <ul class="nav sub-menu">
 
-                            @if (Auth::user()->can('amenities.all'))
-                                <li class="nav-item">
-                                    <a href="{{ route('all.amenitie') }}" class="nav-link">All Amenities</a>
-                                </li>
-                            @endif
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="collapse" href="#amenities" role="button" aria-expanded="false"
+                    aria-controls="amenities">
+                    <i class="link-icon" data-feather="mail"></i>
+                    <span class="link-title">Amenities Type</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="amenities">
+                    <ul class="nav sub-menu">
 
-                            @if (Auth::user()->can('amenities.add'))
-                                <li class="nav-item">
-                                    <a href="pages/email/read.html" class="nav-link">Add Amenities</a>
-                                </li>
-                            @endif
+                        {{-- @if (Auth::user()->can('amenities.all')) --}}
+                        <li class="nav-item">
+                            <a href="{{ route('all.amenitie') }}" class="nav-link">All Amenities</a>
+                        </li>
+                        {{-- @endif --}}
 
-                        </ul>
-                    </div>
-                </li>
-            @endif
+                        {{-- @if (Auth::user()->can('amenities.add')) --}}
+                        <li class="nav-item">
+                            <a href="pages/email/read.html" class="nav-link">Add Amenities</a>
+                        </li>
+                        {{-- @endif --}}
+
+                    </ul>
+                </div>
+            </li>
 
 
             <li class="nav-item nav-category">Components</li>

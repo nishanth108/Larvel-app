@@ -76,6 +76,42 @@
                     $(element).removeClass('is-invalid');
                 },
             });
+
+            // Sweet alert box
+
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "timeOut": "4000",
+                "extendedTimeOut": "1000",
+                "showDuration": "300",
+                "hideDuration": "300",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+
+            @if (Session::has('message'))
+                var type = "{{ Session::get('alert-type', 'info') }}";
+
+                switch (type) {
+                    case 'info':
+                        toastr.info("{{ Session::get('message') }}");
+                        break;
+                    case 'success':
+                        toastr.success("{{ Session::get('message') }}");
+                        break;
+                    case 'warning':
+                        toastr.warning("{{ Session::get('message') }}");
+                        break;
+                    case 'error':
+                        toastr.error("{{ Session::get('message') }}");
+                        break;
+                }
+            @endif
         });
     </script>
+
+
+
 @endsection

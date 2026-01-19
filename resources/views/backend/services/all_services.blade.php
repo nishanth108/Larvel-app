@@ -23,28 +23,30 @@
                     <div class="card-body">
                         <h6 class="card-title">Amenities Type All</h6>
                         <div class="table-responsive">
-                            <table id="amenitiesTable" class="table">
+                            <table id="serviceTabel" class="table">
                                 <thead>
                                     <tr>
                                         <th>Sl</th>
-                                        <th>Amenitie Name</th>
+                                        <th>Service Name</th>
+                                        <th>Icon Name</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($amenities as $key => $item)
+                                    @foreach ($serviceData as $key => $item)
                                         <tr>
                                             <td>{{ $key + 1 }}</td>
                                             <td>{{ $item->amenities_name }}</td>
+                                            <td>{{ $item->icon_name }}</td>
                                             <td>
-                                                @can('update', $item)
-                                                    <a type="button" href="{{ route('edit.amenitie', $item->slug) }}"
-                                                        class="btn btn-inverse-warning">Edit</a>
-                                                @endcan
-                                                @can('delete', $item)
-                                                    <a type="button" href="{{ route('delete.amenitie', $item->id) }}"
-                                                        class="btn btn-inverse-danger" id="delete">Delete</a>
-                                                @endcan
+                                                {{-- @if (Auth::user()->can('amenities.edit')) --}}
+                                                <a type="button" href="{{ route('edit.service', $item->id) }}"
+                                                    class="btn btn-inverse-warning">Edit</a>
+                                                {{-- @endif --}}
+                                                {{-- @if (Auth::user()->can('amenities.delete')) --}}
+                                                <a type="button" href="{{ route('delete.service', $item->id) }}"
+                                                    class="btn btn-inverse-danger" id="delete">Delete</a>
+                                                {{-- @endif --}}
 
                                             </td>
                                         </tr>
@@ -78,38 +80,7 @@
 
         <script>
             $(document).ready(function() {
-                $('#amenitiesTable').DataTable({
-                    columnDefs: [{
-                            targets: [2],
-                            searchable: false,
-                            // visible: false,
-
-                        } // Sl No & Action
-                    ],
-                    layout: {
-                        topStart: {
-                            buttons: [{
-                                    extend: 'excel',
-                                    text: '<span class="custom-btn excel-btn btn-primary"><i class="fa fa-file-excel"></i> Export Excel</span>',
-                                    exportOptions: {
-                                        columns: [0, 1] // ONLY export Sl & Name
-                                    },
-                                    className: 'btn btn-success btn-sm btn-reset'
-                                },
-                                {
-                                    extend: 'pdf',
-                                    text: '<span class="custom-btn pdf-btn"> Export PDF</span>',
-                                    exportOptions: {
-                                        columns: [0, 1]
-                                    },
-                                    className: 'btn btn-danger btn-sm btn-reset ms-2'
-                                }
-                            ]
-                        }
-
-                    }
-
-                });
+                $('#serviceTabel').DataTable({});
             });
         </script>
     @endpush

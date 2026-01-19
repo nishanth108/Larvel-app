@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\PropertyType;
 use App\Models\Amenitie;
 use Illuminate\Support\Facades\DB;
+use Svg\Tag\Rect;
 
 class PropertyTypeController extends Controller
 {
@@ -103,7 +104,7 @@ class PropertyTypeController extends Controller
     public function StoreAmenitie(Request $request)
     {
 
-        Amenitie::insert([
+        Amenitie::create([
             'amenities_name' => $request->amenities_name,
             'description' => $request->amenities_description,
             'icon_name' => $request->amenities_icon,
@@ -117,19 +118,31 @@ class PropertyTypeController extends Controller
     } //EndMethod
 
 
-    public function EditAmenitie($id)
+    public function EditAmenitie(Amenitie $amenities)
     {
-        $amenities = Amenitie::findOrFail($id);
+        // $amenities = Amenitie::findOrFail($id);
+        // $amenities = Amenitie::findOrFail($id); No need of id anymore using slug even laravel handels the 404 error
+        $this->authorize('update', $amenities);
+
+        // $amenities = $amenities->where('slug', $amenities->slug);
         return view('backend.amenities.edit_amenities', compact('amenities'));
     } //End Method
 
-    public function UpdateAmenitie(Request $request)
+    public function UpdateAmenitie(Request $request, Amenitie $amenities)
     {
-
-        $ame_id = $request->id;
-        Amenitie::findOrFail($ame_id)->update([
-            'amenities_name' => $request->amenities_name,
+        $request->validate([
+            'amenities_name' => 'required|string|max:255',
+            'description'    => 'nullable|string',
+            'icon_name'      => 'nullable|string|max:255',
         ]);
+
+        $amenities->update([
+            'amenities_name' => $request->amenities_name,
+            'description' => $request->description,
+            'icon_name' => $request->icon_name,
+        ]);
+
+
 
         $notification = array(
             'message' => 'Amenitie Updated Succesfully',
@@ -141,11 +154,16 @@ class PropertyTypeController extends Controller
 
     public function DeleteAmenitie($id)
     {
-        Amenitie::findOrFail($id)->delete();
-        $notification = array(
-            'message' => 'Amenitie Deleted Succesfully',
+        $amenitie = Amenitie::findOrFail($id);
+
+        $this->authorize('delete', $amenitie);
+
+        $amenitie->delete();
+
+        return redirect()->back()->with([
+            'message' => 'Amenitie Deleted Successfully',
             'alert-type' => 'success'
-        );
+        ]);
         return redirect()->back()->with($notification);
     } //End method
 
@@ -197,4 +215,23 @@ class PropertyTypeController extends Controller
             "data" => $data
         ]);
     }
+
+    // public function  AllService()
+    // {
+    //     $serviceData = Amenitie::all();
+    //     return view('backend.services.all_services', compact('serviceData'));
+    // }
+
+    // public function AddService(Request $request)
+    // {
+    //     return view('backend.services.add_service');
+    // }
+
+    // public function editService(Request $request, $id)
+    // {
+    //     $amenities = Amenitie::findOrFail($id);
+    //     $this->authorize('update', $amenities);
+
+    //     return view('backend.services.edit_services', compact('amenities'));
+    // }
 }

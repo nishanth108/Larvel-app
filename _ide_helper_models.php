@@ -15,6 +15,9 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $amenities_name
+ * @property string $slug
+ * @property string|null $description
+ * @property string|null $icon_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Amenitie newModelQuery()
@@ -22,7 +25,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Amenitie query()
  * @method static \Illuminate\Database\Eloquent\Builder|Amenitie whereAmenitiesName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Amenitie whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Amenitie whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Amenitie whereIconName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Amenitie whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Amenitie whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Amenitie whereUpdatedAt($value)
  */
 	class Amenitie extends \Eloquent {}
@@ -58,6 +64,7 @@ namespace App\Models{
  * @property string|null $type_icon
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\PropertyTypeFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|PropertyType newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PropertyType newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PropertyType query()
@@ -80,6 +87,7 @@ namespace App\Models{
  * @property mixed $password
  * @property string|null $photo
  * @property string|null $phone
+ * @property string|null $city_name
  * @property string|null $address
  * @property string $role
  * @property string $status
@@ -101,6 +109,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
  * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCityName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
