@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Models\User;
+use App\Models\Amenitie;
 use Illuminate\Support\Facades\Hash;
 use Nette\Utils\Json;
 
@@ -213,5 +214,25 @@ class AdminController extends Controller
     {
         $contact = Contact::all();
         return view('backend.contact.contact', compact('contact'));
-    }
+    } //End Method
+
+    public function GetSlugForAmenitie(Amenitie $amenities)
+    {
+        return view('backend.amenities.edit_amenitie_slug', compact('amenities'));
+    } //End Method
+
+    public function updateSlugForAmenitie(Request $request, Amenitie $amenities)
+    {
+        $request->validate([
+            'amenities_name' => 'required|string|max:255',
+            'slug' => 'required|string'
+        ]);
+
+        $amenities->update([
+            'amenities_name' => $request->amenities_name,
+            'slug' => $request->slug
+        ]);
+    } //End Method
+
+
 }

@@ -240,6 +240,12 @@ Route::middleware(['auth', 'roles:admin'])->group(function () {
         Route::post('/update/admin/{id}', 'UpdateAdmin')->name('update.admin');
 
         Route::get('/delete/admin/{id}', 'DeleteAdmin')->name('delete.admin');
+
+        // Now We are using this to change the slug
+        Route::get('/amenities/{amenities:slug}', 'GetSlugForAmenitie')->name('get.slug.amenities');
+
+        // Now We are using this to change the slug
+        Route::put('/amenities/slug/{amenities:slug}', 'updateSlug')->name('update.slug.amenities');
     });
 }); //End Group andmin modular
 
